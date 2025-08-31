@@ -130,7 +130,7 @@
           "quote": "Fantastic attention to dddetail and communication.",
           "author": "Jamie L.dd",
           "role": "Founder",
-          "image": "/uploads/leo.jpg",
+          "image": "/uploads/avatar-659652_960_720.webp",
           "size": "large"
         },
         {
@@ -141,7 +141,7 @@
           "size": "large"
         }
       ],
-      "variant": "grid"
+      "variant": "carousel"
     },
     {
       "id": "contact",
