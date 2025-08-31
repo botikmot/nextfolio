@@ -105,7 +105,7 @@ export type SectionConfig =
       variant?: string;
       textColor?: string;
       bgColor?: string;
-      socials?: string[];
+      socials?: SocialMediaLink[];
     };
 
 export const layout: SectionConfig[] = layoutData.sections;
