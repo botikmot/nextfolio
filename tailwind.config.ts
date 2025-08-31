@@ -13,7 +13,7 @@ const config: Config = {
       colors: {
         brand: {
           DEFAULT: themeCfg.colors.brand,
-          dark: themeCfg.colors.brandDark,
+          dark: themeCfg.colors.brandHover,
         },
       },
       boxShadow: {
