@@ -13,12 +13,12 @@ corepack enable   # enables pnpm if not installed
 
 ## 1) Install
 ```bash
-pnpm i
+pnpm i or npm install
 ```
 
 ## 2) Run dev
 ```bash
-pnpm dev
+pnpm dev or npm run dev
 # http://localhost:3000
 ```
 
