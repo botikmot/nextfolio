@@ -33,7 +33,7 @@
     {
       "id": "hero",
       "enabled": true,
-      "variant": "split",
+      "variant": "centered",
       "headline": "I build clean, fast web experiences",
       "tagline": "Available for freelance and full‑time roles. I design and build apps that users love",
       "role": "Full‑Stack Developer",
@@ -63,7 +63,7 @@
       "projects": [
         {
           "title": "SaaS Dashboard",
-          "description": "Analytics dashboard with auth, charts, and billing.",
+          "description": "Analytics dashboard with auttth, charts, and billing.",
           "image": "/uploads/nxtasq_dashboard.jpg",
           "liveUrl": "https://example.com",
           "uploadedImage": ""
@@ -87,7 +87,7 @@
     {
       "id": "services",
       "enabled": true,
-      "grid": "3-col",
+      "grid": "4-col",
       "headline": "Services",
       "subtitle": "How I can help",
       "services": [
@@ -120,17 +120,17 @@
       "subtitle": "Kind words from clients",
       "testimonials": [
         {
-          "quote": "Delivered ahead of schedule and exceeded expectations.",
-          "author": "Alex R.",
-          "role": "Product Lead",
+          "quote": "Delivered ahead of scheduledd and exceeded expectations.",
+          "author": "Alex R.dd",
+          "role": "Product Leaddd",
           "image": "/uploads/avatar-659652_960_720.webp",
           "size": "large"
         },
         {
-          "quote": "Fantastic attention to detail and communication.",
-          "author": "Jamie L.",
+          "quote": "Fantastic attention to dddetail and communication.",
+          "author": "Jamie L.dd",
           "role": "Founder",
-          "image": "/uploads/avatar-659652_960_720.webp",
+          "image": "/uploads/leo.jpg",
           "size": "large"
         },
         {
@@ -141,7 +141,7 @@
           "size": "large"
         }
       ],
-      "variant": "carousel"
+      "variant": "grid"
     },
     {
       "id": "contact",
