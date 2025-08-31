@@ -12,7 +12,7 @@ export default function DevToolsProvider({
   onChange: (layout: SectionConfig[]) => void
   onThemeChange: (theme: typeof defaultTheme) => void
 }) {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
 
   // Toggle with keyboard (still supported)
   useEffect(() => {
