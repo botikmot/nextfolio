@@ -20,11 +20,16 @@ export default function LayoutSettings({
 
   const fileHandleRef = useRef<FileSystemFileHandle | null>(null);
 
-  const updateSection = (id: string, updates: Partial<SectionConfig>) => {
-    const updated = sections.map((s) => (s.id === id ? { ...s, ...updates } : s));
+  type SectionUpdate<T extends SectionConfig["id"]> = Partial<Extract<SectionConfig, { id: T }>>;
+
+  const updateSection = <T extends SectionConfig["id"]>(id: T, updates: SectionUpdate<T>) => {
+    const updated = sections.map((s) =>
+      s.id === id ? { ...s, ...updates } : s
+    ) as SectionConfig[];
     setSections(updated);
     onChange(updated);
   };
+
   
   const updateTheme = (updates: Partial<typeof defaultTheme>) => {
     const updated = { ...theme, ...updates };

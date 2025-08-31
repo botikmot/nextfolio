@@ -108,7 +108,7 @@ export type SectionConfig =
       socials?: SocialMediaLink[];
     };
 
-export const layout: SectionConfig[] = layoutData.sections;
+export const layout: SectionConfig[] = layoutData.sections as SectionConfig[];
 export const theme = layoutData.theme;
 
 /* export const layout: SectionConfig[] = [
