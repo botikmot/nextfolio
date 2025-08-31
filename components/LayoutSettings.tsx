@@ -17,6 +17,9 @@ export default function LayoutSettings({
   const [theme, setTheme] = useState(defaultTheme);
   const [activeTab, setActiveTab] = useState<string>("header");
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [showLicensePrompt, setShowLicensePrompt] = useState(false);
+  const [licenseKey, setLicenseKey] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fileHandleRef = useRef<FileSystemFileHandle | null>(null);
 
@@ -46,32 +49,53 @@ export default function LayoutSettings({
   };
 
   const handleSaveJSON = async () => {
+    setShowLicensePrompt(true);
+  };
+
+  const verifyAndDownload = async () => {
+    setLoading(true);
     try {
-      // Ask the user to pick a file if we don't have a handle yet
-      if (!fileHandleRef.current) {
-       fileHandleRef.current = await (window as any).showSaveFilePicker({
-          suggestedName: "layout.json",
-          types: [
-            {
-              description: "JSON Files",
-              accept: { "application/json": [".json"] },
-            },
-          ],
-        });
+      // 1️⃣ Verify license
+      const res = await fetch("/api/verify-license", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ licenseKey }),
+      });
+      const data = await res.json();
+      if (!data.valid) {
+        alert("❌ Invalid or expired license key.");
+        setLoading(false);
+        return;
       }
 
-      // Create a writable stream and write JSON
-      const writable = await fileHandleRef.current!.createWritable();
-      const exportData = { sections, theme };
-      await writable.write(JSON.stringify(exportData, null, 2));
-      await writable.close();
+      // 2️⃣ Call API to generate ZIP
+      const zipRes = await fetch("/api/download-template", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ layout: { sections, theme } }),
+      });
 
-      //alert("Layout saved successfully!");
+      const blob = await zipRes.blob();
+
+      // 3️⃣ Download the ZIP
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "nextfolio.zip";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setShowLicensePrompt(false);
+      setLoading(false);
+      alert("✅ Download ready! Your ZIP is ready to upload to Vercel.");
     } catch (err) {
-      console.error("Error saving layout:", err);
-      alert("Failed to save layout. Make sure your browser supports the File System Access API.");
+      console.error(err);
+      alert("Failed to download ZIP. Please try again.");
+      setLoading(false);
     }
   };
+
 
   type ArrayKeys = "nav" | "projects" | "skills" | "services" | "testimonials" | "socialMedia" | "socials";
 
@@ -786,14 +810,47 @@ export default function LayoutSettings({
       {/* Active Section Fields */}
       {activeSection && renderSectionFields(activeSection)}
 
+      {/* Save button */}
       <div className="mt-4">
         <button
           onClick={handleSaveJSON}
           className="px-3 py-2 bg-green-500 text-white rounded text-sm w-full"
         >
-          💾 Save Layout JSON
+          💾 Save & Download
         </button>
       </div>
+
+
+      {/* License Modal */}
+      {showLicensePrompt && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-96">
+            <h2 className="text-lg font-bold mb-3">🔑 Enter License Key</h2>
+            <input
+              type="text"
+              placeholder="Enter Gumroad license key"
+              value={licenseKey}
+              onChange={(e) => setLicenseKey(e.target.value)}
+              className="border p-2 rounded w-full mb-4"
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowLicensePrompt(false)}
+                className="px-3 py-2 bg-gray-200 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={verifyAndDownload}
+                disabled={loading}
+                className="px-3 py-2 bg-green-600 text-white rounded"
+              >
+                {loading ? "Verifying..." : "Verify & Download"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

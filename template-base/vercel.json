@@ -1,0 +1,6 @@
+{
+  "env": {
+    "NEXT_PUBLIC_ENV": "production",
+    "SITE_URL": "https://yourdomain.com"
+  }
+}
