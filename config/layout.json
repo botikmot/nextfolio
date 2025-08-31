@@ -33,7 +33,7 @@
     {
       "id": "hero",
       "enabled": true,
-      "variant": "centered",
+      "variant": "split",
       "headline": "I build clean, fast web experiences",
       "tagline": "Available for freelance and full‑time roles. I design and build apps that users love",
       "role": "Full‑Stack Developer",

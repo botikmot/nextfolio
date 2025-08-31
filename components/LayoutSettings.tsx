@@ -49,7 +49,7 @@ export default function LayoutSettings({
     try {
       // Ask the user to pick a file if we don't have a handle yet
       if (!fileHandleRef.current) {
-        fileHandleRef.current = await window.showSaveFilePicker({
+       fileHandleRef.current = await (window as any).showSaveFilePicker({
           suggestedName: "layout.json",
           types: [
             {
@@ -61,7 +61,7 @@ export default function LayoutSettings({
       }
 
       // Create a writable stream and write JSON
-      const writable = await fileHandleRef.current.createWritable();
+      const writable = await fileHandleRef.current!.createWritable();
       const exportData = { sections, theme };
       await writable.write(JSON.stringify(exportData, null, 2));
       await writable.close();
@@ -73,15 +73,15 @@ export default function LayoutSettings({
     }
   };
 
-
+  type ArrayKeys = "nav" | "projects" | "skills" | "services" | "testimonials" | "socialMedia" | "socials";
 
   const renderArrayField = (
   s: SectionConfig,
-  arrKey: string,
+  arrKey: ArrayKeys,
   itemFields: { key: string; label: string; multiline?: boolean }[],
   allowFileUpload = false
 ) => {
-  const arr = [...(s[arrKey] || [])];
+  const arr = [...((s as any)[arrKey] || [])];
 
   return (
     <div className="space-y-1">
@@ -308,7 +308,6 @@ export default function LayoutSettings({
                   const file = e.target.files?.[0];
                   if (!file) return;
 
-                  // Max size 2MB (you can change this)
                   if (file.size > 2 * 1024 * 1024) {
                     alert("File size must be less than 2MB");
                     return;
@@ -316,13 +315,16 @@ export default function LayoutSettings({
 
                   const reader = new FileReader();
                   reader.onloadend = () => {
-                    updateSection(s.id, { image: reader.result }); // save base64 string
+                    if (typeof reader.result === "string") {
+                      updateSection(s.id, { image: reader.result });
+                    }
                   };
                   reader.readAsDataURL(file);
                 }}
                 className="w-full border px-2 py-1 rounded text-sm"
               />
             </label>
+
 
             {/* Image Shape */}
             <label className="block mt-2">
@@ -406,7 +408,7 @@ export default function LayoutSettings({
               <span className="text-xs">Grid</span>
               <select
                 value={s.grid || "3-col"}
-                onChange={(e) => updateSection(s.id, { grid: e.target.value as "2-col" | "3-col" | "4-col" })}
+                onChange={(e) => updateSection(s.id, { grid: e.target.value as "2-col" | "3-col" })}
                 className="w-full border px-2 py-1 rounded text-sm"
               >
                 <option value="2-col">2 Columns</option>
@@ -445,7 +447,7 @@ export default function LayoutSettings({
               <span className="text-xs">Grid</span>
               <select
                 value={s.grid || "3-col"}
-                onChange={(e) => updateSection(s.id, { grid: e.target.value as "2-col" | "3-col" | "4-col" })}
+                onChange={(e) => updateSection(s.id, { grid: e.target.value as "3-col" | "4-col" })}
                 className="w-full border px-2 py-1 rounded text-sm"
               >
                 <option value="3-col">3 Columns</option>
