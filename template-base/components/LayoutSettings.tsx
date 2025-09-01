@@ -56,7 +56,7 @@ export default function LayoutSettings({
     setLoading(true);
     try {
       // 1️⃣ Verify license
-      const res = await fetch("/api/verify-license", {
+      /* const res = await fetch("/api/verify-license", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ licenseKey }),
@@ -66,7 +66,7 @@ export default function LayoutSettings({
         alert("❌ Invalid or expired license key.");
         setLoading(false);
         return;
-      }
+      } */
 
       // 2️⃣ Call API to generate ZIP
       const zipRes = await fetch("/api/download-template", {
@@ -816,7 +816,7 @@ export default function LayoutSettings({
           onClick={handleSaveJSON}
           className="px-3 py-2 bg-green-500 text-white rounded text-sm w-full"
         >
-          💾 Save & Download
+          💾 Save
         </button>
       </div>
 

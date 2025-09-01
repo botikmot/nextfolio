@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     const { layout } = await req.json();
 
     const zip = new JSZip();
-    const baseDir = path.join(process.cwd(), "template-base");
+    /* const baseDir = path.join(process.cwd(), "template-base");
 
     function addFolderToZip(folderPath: string, zipFolder: JSZip) {
       const files = fs.readdirSync(folderPath);
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       });
     }
 
-    addFolderToZip(baseDir, zip);
+    addFolderToZip(baseDir, zip); */
 
     zip.file("config/layout.json", JSON.stringify(layout, null, 2));
 
